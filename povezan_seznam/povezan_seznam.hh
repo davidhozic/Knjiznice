@@ -14,11 +14,14 @@
 #define  USE_FREERTOS_MALLOC   1
 /************************************************************************/
 
-
+#define add_end     dodaj_konec
+#define add_front   dodaj_zacetek
+#define clear       cisti_seznam
 
 #if (USE_FREERTOS_MALLOC == 1)
 	#include "FreeRTOS.h"
 #endif
+
 
 
 template <typename tip>
@@ -39,6 +42,7 @@ private:
 
     vozlisce_data_obj_t *glava = nullptr;
     unsigned short count = 0;
+    unsigned short glava_index = 0;
 
     inline void pojdi_zacetek()
     {
@@ -92,6 +96,7 @@ public:
         nov->podatek = vrednost;
         glava = nov;
         count++;
+        glava_index = 0;
     }
 
     void dodaj_konec(tip vrednost)
@@ -113,15 +118,22 @@ public:
         nov->podatek = vrednost;
 		glava = nov;
         count++;
+        glava_index = count - 1;
     }
 
     tip &operator[](unsigned short index)
     {
-		pojdi_zacetek();
-        
-        for (uint16_t i = 0 ; i < index; i++)
-           glava = glava->naslednji;
+		while (glava_index < index)
+        {
+            glava = glava->naslednji;
+            glava_index++;
+        }
 		
+        while (glava_index > index)
+        {
+            glava = glava->prejsnji;
+            glava_index--;
+        }
 
         return (glava->podatek);
     }

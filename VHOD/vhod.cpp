@@ -1,7 +1,7 @@
 #include "Vhod.hh"
 
 
-bool class_VHOD::vrednost()
+bool class_VHOD::value()
 {
 	switch (port)
 	{
@@ -88,8 +88,6 @@ bool class_VHOD::vrednost()
 		break;
 	}
 
-
-
 	// END READING OF PIN
 	/************************/
 	
@@ -98,6 +96,12 @@ bool class_VHOD::vrednost()
 	{
 		unfiltered_curr_state = !unfiltered_curr_state;
 	}	
+
+	if (!first_read)	// Skip filtering for first read
+	{
+		first_read = 1;
+		filtered_curr_state = unfiltered_curr_state;
+	}
 	
 #if (USE_FILTERING == 1)
 	/* Filter input with a timer */
@@ -114,6 +118,7 @@ bool class_VHOD::vrednost()
 	filtered_curr_state = unfiltered_curr_state;
 #endif
 	/* END OF FILTERING*/
+
 	
 	/* Edge detection */
 	if (prev_state != filtered_curr_state)
@@ -121,11 +126,11 @@ bool class_VHOD::vrednost()
 		/* If state has changed and input is high -> rising edge*/
 		if (filtered_curr_state)
 		{
-			rising_edge = 1;
+			rising_edge_var = 1;
 		}
 		else
 		{
-			falling_edge = 1;
+			falling_edge_var = 1;
 		}	
 		prev_state = filtered_curr_state;
 	}
@@ -133,10 +138,10 @@ bool class_VHOD::vrednost()
 	/* Clear edges if input state doesn't match */
 	if (!filtered_curr_state)
 	{
-		rising_edge = 0;
+		rising_edge_var = 0;
 	}
 	else if(filtered_curr_state){
-		falling_edge = 0;
+		falling_edge_var = 0;
 	}
 	
 
@@ -146,9 +151,9 @@ bool class_VHOD::vrednost()
 bool class_VHOD::risingEdge()
 {
 	vrednost();
-	if (rising_edge)
+	if (rising_edge_var)
 	{
-		rising_edge = 0;			
+		rising_edge_var = 0;			
 		return true;
 	}
 	return false;
@@ -157,9 +162,9 @@ bool class_VHOD::risingEdge()
 bool class_VHOD::fallingEdge()
 {
 	vrednost();
-	if (falling_edge)
+	if (falling_edge_var)
 	{
-		falling_edge = 0;
+		falling_edge_var = 0;
 		return true;
 	}
 	return false;
@@ -169,11 +174,12 @@ class_VHOD::class_VHOD(unsigned char pin, char port, char default_state)
 {
 	this->port = port;
 	this->pin = pin;
-	this->default_state = default_state;
-	filtered_curr_state = 0;
+	this->default_state	  = default_state;
+	filtered_curr_state   = 0;
 	unfiltered_curr_state = 0;
-	rising_edge = 0;
-	falling_edge = 0;
+	rising_edge_var  = 0;
+	falling_edge_var = 0;
+	first_read	 = 0;
 }
 
 
