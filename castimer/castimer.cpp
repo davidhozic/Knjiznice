@@ -31,11 +31,11 @@
 
 
 
-unsigned long class_TIMER::vrednost()
+uint32_t class_TIMER::vrednost()
 {
 #if (SOURCE_INTERUPT == 1)
 	timer_enabled = true;				
-	unsigned short temp_timer_value;
+	uint32_t temp_timer_value;
 	ATOMIC_BLOCK(ATOMIC_FORCEON)
 	{
 		temp_timer_value = timer_value;		
@@ -67,26 +67,38 @@ void class_TIMER::ponastavi()
 #endif
 }
 
+class_TIMER::class_TIMER(void (*function_hook)(void *), uint32_t function_call_period, void* function_parameter)
+{
+	#if (SOURCE_INTERUPT == 1)
+		ATOMIC_BLOCK(ATOMIC_FORCEON)
+		{
+			class_TIMER::timer_list.dodaj_konec(this);
+		}
+	#endif
+
+	/* Attach function to call */
+	if (function_hook != nullptr)
+	{
+		function_ptr = function_hook;
+		this->function_call_period = function_call_period;
+		this->function_parameter = function_parameter;
+	}
+}
+
 #if (SOURCE_INTERUPT == 1)
 
 	void class_TIMER::increment()
 	{
 		if (timer_enabled)
 		{
-			#ifndef DEBUG
 			timer_value += TIMER_INCREMENT_VALUE_MS;
-			#else
-			timer_value += 250;
-			#endif
-		}
-	}
 
-
-	class_TIMER::class_TIMER()
-	{
-		ATOMIC_BLOCK(ATOMIC_FORCEON)
-		{
-			class_TIMER::timer_list.dodaj_konec(this);
+			/* Call function that was assigned thru constructor*/
+			if (function_ptr != NULL && timer_value > function_call_period)
+			{
+				timer_value = 0;
+				function_ptr(function_parameter);
+			}
 		}
 	}
 
