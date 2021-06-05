@@ -1,24 +1,21 @@
 #ifndef SEZNAM_INC
 #define SEZNAM_INC
 
-#ifndef _STDLIB_H_
 #include <stdlib.h>
-#endif
-
 #include <stdint.h>
 
 
-/************************************************************************/
-/*							  SETTINGS                                  */
-/************************************************************************/
-#define  USE_FREERTOS_MALLOC   0
-/************************************************************************/
+#include "list_settings.hh"
+
+
+
+
+
 
 
 #if (USE_FREERTOS_MALLOC == 1)
 	#include "FreeRTOS.h"
 #endif
-
 
 
 template <typename tip>
@@ -65,14 +62,19 @@ public:
     {
         return count;
     }
-
+	
     void clear()
     {
         pojdi_zacetek();
         while (glava != NULL)
         {
             vozlisce_data_obj_t *temp = glava->naslednji;
+		#if (AVR_MODE == 0)
             delete (glava);
+		#else
+			free(glava);
+			#warning "WARNING! AVR_MODE is enabled which means free() will be used instead of delete() which WILL cause MEMORY leaks if you delete a MULTI-dimensional list. If 1D list is used, there will be no problems."
+		#endif
             glava = temp;
         }
         count = 0;
@@ -84,7 +86,9 @@ public:
         clear();    // Clears sub elements of the head in case head is another linked list
     }
 
-    void add_front(tip vrednost)
+
+    
+	void add_front(tip vrednost)
     {
 	#if (USE_FREERTOS_MALLOC == 1)
         vozlisce_data_obj_t *nov = (vozlisce_data_obj_t *) pvPortMalloc(sizeof(vozlisce_data_obj_t));
