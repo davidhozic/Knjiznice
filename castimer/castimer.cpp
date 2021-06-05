@@ -26,10 +26,8 @@
 
 /* Initialization of timer list */
 #if (SOURCE_INTERUPT == 1)
-	Vozlisce_t <class_TIMER*> class_TIMER::timer_list;
+	class_LIST <class_TIMER*> class_TIMER::timer_list;
 #endif
-
-
 
 uint32_t class_TIMER::vrednost()
 {
@@ -59,31 +57,21 @@ uint32_t class_TIMER::vrednost()
 void class_TIMER::ponastavi()
 {
 #if (SOURCE_INTERUPT == 1)
-	this->timer_enabled = false;
 	this->timer_value = 0;
-
-#elif (SOURCE_SYSTEM_TIME == 1)
-	timer_enabled = false;
 #endif
+	this->timer_enabled = false;
 }
 
-class_TIMER::class_TIMER(void (*function_hook)(void *), uint32_t function_call_period, void* function_parameter)
+#if (SOURCE_INTERUPT == 1)
+class_TIMER::class_TIMER()
 {
-	#if (SOURCE_INTERUPT == 1)
-		ATOMIC_BLOCK(ATOMIC_FORCEON)
-		{
-			class_TIMER::timer_list.dodaj_konec(this);
-		}
-	#endif
-
-	/* Attach function to call */
-	if (function_hook != nullptr)
+	ATOMIC_BLOCK(ATOMIC_FORCEON)
 	{
-		function_ptr = function_hook;
-		this->function_call_period = function_call_period;
-		this->function_parameter = function_parameter;
+		class_TIMER::timer_list.dodaj_konec(this);
 	}
 }
+#endif
+
 
 #if (SOURCE_INTERUPT == 1)
 
@@ -92,9 +80,7 @@ class_TIMER::class_TIMER(void (*function_hook)(void *), uint32_t function_call_p
 		if (timer_enabled)
 		{
 			timer_value += TIMER_INCREMENT_VALUE_MS;
-
-			/* Call function that was assigned thru constructor*/
-			if (function_ptr != NULL && timer_value > function_call_period)
+			if (function_ptr != NULL && timer_value >= function_call_period)
 			{
 				timer_value = 0;
 				function_ptr(function_parameter);
@@ -110,6 +96,12 @@ class_TIMER::class_TIMER(void (*function_hook)(void *), uint32_t function_call_p
 		}
 	}
 	
+	void class_TIMER::set_hook(void (*function_ptr)(void*), uint32_t call_period, void* function_param_ptr)
+	{
+		this->function_ptr = function_ptr;
+		this->function_call_period = call_period;
+		this->function_parameter = function_param_ptr;
+		this->timer_enabled = 1;
+	}
 	
-
 #endif

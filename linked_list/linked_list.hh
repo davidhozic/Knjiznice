@@ -11,12 +11,9 @@
 /************************************************************************/
 /*							  SETTINGS                                  */
 /************************************************************************/
-#define  USE_FREERTOS_MALLOC   1
+#define  USE_FREERTOS_MALLOC   0
 /************************************************************************/
 
-#define add_end     dodaj_konec
-#define add_front   dodaj_zacetek
-#define clear       cisti_seznam
 
 #if (USE_FREERTOS_MALLOC == 1)
 	#include "FreeRTOS.h"
@@ -25,14 +22,14 @@
 
 
 template <typename tip>
-class Vozlisce_t
+class class_LIST
 {
 private:
 
     class vozlisce_data_obj_t
     {
     public:
-        friend class Vozlisce_t<tip>;
+        friend class class_LIST<tip>;
 
     private:
         vozlisce_data_obj_t *naslednji;
@@ -40,13 +37,13 @@ private:
         tip podatek;
     };
 
-    vozlisce_data_obj_t *glava = nullptr;
+    vozlisce_data_obj_t *glava = NULL;
     unsigned short count = 0;
     unsigned short glava_index = 0;
 
     inline void pojdi_zacetek()
     {
-        while (glava != nullptr && glava->prejsnji != nullptr)
+        while (glava != NULL && glava->prejsnji != NULL)
         {
             glava = glava->prejsnji;
         }
@@ -54,31 +51,40 @@ private:
 
     inline void pojdi_konec()
     {
-        while (glava != nullptr && glava->naslednji != nullptr)
+        while (glava != NULL && glava->naslednji != NULL)
         {
             glava = glava->naslednji;
         }
 	}
 
 public:
+
+
+
     inline unsigned short length()
     {
         return count;
     }
 
-    void cisti_seznam()
+    void clear()
     {
         pojdi_zacetek();
-        while (glava != nullptr)
+        while (glava != NULL)
         {
             vozlisce_data_obj_t *temp = glava->naslednji;
-            free(glava);
+            delete (glava);
             glava = temp;
         }
         count = 0;
     }
 
-    void dodaj_zacetek(tip vrednost)
+    /* Deconstructor to delete sub elements */
+    ~class_LIST()
+    {
+        clear();    // Clears sub elements of the head in case head is another linked list
+    }
+
+    void add_front(tip vrednost)
     {
 	#if (USE_FREERTOS_MALLOC == 1)
         vozlisce_data_obj_t *nov = (vozlisce_data_obj_t *) pvPortMalloc(sizeof(vozlisce_data_obj_t));
@@ -87,11 +93,11 @@ public:
 	#endif
 		pojdi_zacetek();
 
-        if (glava != nullptr)
+        if (glava != NULL)
         {
             glava->prejsnji = nov;
         }
-        nov->prejsnji = nullptr;
+        nov->prejsnji = NULL;
         nov->naslednji = glava;
         nov->podatek = vrednost;
         glava = nov;
@@ -99,7 +105,7 @@ public:
         glava_index = 0;
     }
 
-    void dodaj_konec(tip vrednost)
+    void add_end(tip vrednost)
     {
 
 	#if (USE_FREERTOS_MALLOC == 1)
@@ -109,12 +115,12 @@ public:
 	#endif
 
         pojdi_konec();
-        if (glava != nullptr)
+        if (glava != NULL)
         {
             glava->naslednji = nov;
         }
         nov->prejsnji = glava;
-        nov->naslednji = nullptr;
+        nov->naslednji = NULL;
         nov->podatek = vrednost;
 		glava = nov;
         count++;

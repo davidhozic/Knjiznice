@@ -1,86 +1,87 @@
-#include "Vhod.hh"
+#include "input.hh"
 
 
-bool class_VHOD::value()
+bool class_INPUT::value()
 {
+	/* Switch is used for compatibility with ALL boards */
 	switch (port)
 	{
 	#ifdef PINA
 		case 'A':
-			unfiltered_curr_state = readBIT(PINA, pin);
+			register_value = readBIT(PINA, pin);
 		break;
 	#endif
 
 	#ifdef PINB
 		case 'B':
-			unfiltered_curr_state = readBIT(PINB, pin);
+			register_value = readBIT(PINB, pin);
 		break;
 	#endif
 
 	#ifdef PINC
 		case 'C':
-			unfiltered_curr_state = readBIT(PINC, pin);
+			register_value = readBIT(PINC, pin);
 		break;
 	#endif
 
 	#ifdef PIND
 		case 'D':
-			unfiltered_curr_state = readBIT(PIND, pin);
+			register_value = readBIT(PIND, pin);
 		break;
 	#endif
 
 	#ifdef PINE
 		case 'E':
-			unfiltered_curr_state = readBIT(PINE, pin);
+			register_value = readBIT(PINE, pin);
 		break;
 	#endif
 
 	#ifdef PINF
 		case 'F':
-			unfiltered_curr_state = readBIT(PINF, pin);
+			register_value = readBIT(PINF, pin);
 		break;
 	#endif
 
 	#ifdef PING
 		case 'G':
-			unfiltered_curr_state = readBIT(PING, pin);
+			register_value = readBIT(PING, pin);
 		break;
 	#endif
 
 	#ifdef PINH
 		case 'H':
-			unfiltered_curr_state = readBIT(PINH, pin);
+			register_value = readBIT(PINH, pin);
 		break;
 	#endif
 
 	#ifdef PINI
 		case 'I':
-			unfiltered_curr_state = readBIT(PINI, pin);
+			register_value = readBIT(PINI, pin);
 		break;
 	#endif
 
 	#ifdef PINJ
 		case 'J':
-			unfiltered_curr_state = readBIT(PINJ, pin);
+			register_value = readBIT(PINJ, pin);
 		break;
 	#endif
 
 
 	#ifdef PINK
 		case 'K':
-			unfiltered_curr_state = readBIT(PINK, pin);
+			register_value = readBIT(PINK, pin);
 		break;
 	#endif
 
 	#ifdef PINL
 		case 'L':
-			unfiltered_curr_state = readBIT(PINL, pin);
+			register_value = readBIT(PINL, pin);
 		break;
 	#endif
 
 	#ifdef PINM
 		case 'M':
-			unfiltered_curr_state = readBIT(PINM, pin);
+			register_value = readBIT(PINM, pin);
 		break;
 	#endif
 
@@ -88,34 +89,27 @@ bool class_VHOD::value()
 		break;
 	}
 
-	// END READING OF PIN
+	// END OF REGISTER READING
 	/************************/
 	
 	/*		Invert output if unpressed input state is 1		*/
 	if (default_state)
 	{
-		unfiltered_curr_state = !unfiltered_curr_state;
+		register_value = !register_value;
 	}	
-
-	if (!first_read)	// Skip filtering for first read
-	{
-		first_read = 1;
-		filtered_curr_state = unfiltered_curr_state;
-	}
 	
 #if (USE_FILTERING == 1)
 	/* Filter input with a timer */
-	if (unfiltered_curr_state != filtered_curr_state
-		&& filter_timer.vrednost() >= FILTER_TIME_MS)
+	if (register_value != filtered_curr_state && filter_timer.vrednost() >= FILTER_TIME_MS)
 	{
-		filtered_curr_state = unfiltered_curr_state;
+		filtered_curr_state = register_value;
 	}
-	else if(unfiltered_curr_state == filtered_curr_state)
+	else if(register_value == filtered_curr_state)
 	{
 		filter_timer.ponastavi();
 	}
 #else
-	filtered_curr_state = unfiltered_curr_state;
+	filtered_curr_state = register_value;
 #endif
 	/* END OF FILTERING*/
 
@@ -148,9 +142,10 @@ bool class_VHOD::value()
 	return filtered_curr_state;
 }
 
-bool class_VHOD::risingEdge()
+#if (INCLUDE_risen_edge == 1)
+bool class_INPUT::risen_edge()
 {
-	vrednost();
+	value();
 	if (rising_edge_var)
 	{
 		rising_edge_var = 0;			
@@ -158,10 +153,12 @@ bool class_VHOD::risingEdge()
 	}
 	return false;
 }
+#endif
 
-bool class_VHOD::fallingEdge()
+#if (INCLUDE_fallen_edge == 1)
+bool class_INPUT::fallen_edge()
 {
-	vrednost();
+	value();
 	if (falling_edge_var)
 	{
 		falling_edge_var = 0;
@@ -169,17 +166,17 @@ bool class_VHOD::fallingEdge()
 	}
 	return false;
 }
+#endif
 
-class_VHOD::class_VHOD(unsigned char pin, char port, char default_state)
+class_INPUT::class_INPUT(unsigned char pin, char port, char default_state)
 {
 	this->port = port;
 	this->pin = pin;
 	this->default_state	  = default_state;
-	filtered_curr_state   = 0;
-	unfiltered_curr_state = 0;
-	rising_edge_var  = 0;
-	falling_edge_var = 0;
-	first_read	 = 0;
+	this->filtered_curr_state   = 0;
+	this->register_value = 0;
+	this->rising_edge_var  = 0;
+	this->falling_edge_var = 0;
 }
 
 
