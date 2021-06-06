@@ -29,7 +29,7 @@
 	class_LIST <class_TIMER*> class_TIMER::timer_list;
 #endif
 
-uint32_t class_TIMER::vrednost()
+uint32_t class_TIMER::value()
 {
 #if (SOURCE_INTERUPT == 1)
 	timer_enabled = true;				
@@ -54,7 +54,7 @@ uint32_t class_TIMER::vrednost()
 #endif
 }
 
-void class_TIMER::ponastavi()
+void class_TIMER::reset()
 {
 #if (SOURCE_INTERUPT == 1)
 	this->timer_value = 0;
@@ -67,7 +67,7 @@ class_TIMER::class_TIMER()
 {
 	ATOMIC_BLOCK(ATOMIC_FORCEON)
 	{
-		class_TIMER::timer_list.dodaj_konec(this);
+		class_TIMER::timer_list.add_end(this);
 	}
 }
 #endif

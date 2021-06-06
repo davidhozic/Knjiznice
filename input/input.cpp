@@ -100,13 +100,13 @@ bool class_INPUT::value()
 	
 #if (USE_FILTERING == 1)
 	/* Filter input with a timer */
-	if (register_value != filtered_curr_state && filter_timer.vrednost() >= FILTER_TIME_MS)
+	if (register_value != filtered_curr_state && filter_timer.value() >= FILTER_TIME_MS)
 	{
 		filtered_curr_state = register_value;
 	}
 	else if(register_value == filtered_curr_state)
 	{
-		filter_timer.ponastavi();
+		filter_timer.reset();
 	}
 #else
 	filtered_curr_state = register_value;
@@ -180,3 +180,9 @@ class_INPUT::class_INPUT(unsigned char pin, char port, char default_state)
 }
 
 
+/************************************************************************/
+/*							WARNINGS/ERRORS                             */
+/************************************************************************/
+#if (USE_FILTERING == 1)
+	#warning "LITL: USE_FILTERING is enabled, LITL's timer will be used"
+#endif

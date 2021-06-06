@@ -5,17 +5,9 @@
 #include <stdint.h>
 #include "avr/io.h"
 
-
-#if (USE_FILTERING == 1)
-	#ifndef CASTIMER_H
-		#warning "LITL: USE_FILTERING is enabled, LITL's timer will be used"
-		#include "castimer.hh"
-	#endif
+#if (USE_FILTERING)
+	#include "castimer.hh"
 #endif
-
-
-
-
 
 class class_INPUT // pin, port, stanje ko ni pritisnjen
 {

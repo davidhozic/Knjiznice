@@ -22,8 +22,8 @@ private:
 	void *function_parameter = NULL;
 		
 public:
-    uint32_t vrednost();
-    void ponastavi();
+    uint32_t value();
+    void reset();
 	void increment();
 	#if (SOURCE_INTERUPT == 1)
 	void set_hook(void (*function_ptr)(void*), uint32_t call_period, void* function_param_ptr);
@@ -33,13 +33,7 @@ public:
 };
 
 
-/****************************************************************************************************************/
-/*												LANGUAGE RENAMES 												*/
 
-	#define	value()								  	vrednost()	
-	#define	reset()								   	ponastavi()	
-
-/****************************************************************************************************************/
 
 #endif
 

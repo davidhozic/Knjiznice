@@ -1,17 +1,8 @@
 #ifndef SEZNAM_INC
 #define SEZNAM_INC
-#include <type_traits>
 #include <stdlib.h>
 #include <stdint.h>
-
-
 #include "list_settings.hh"
-
-
-
-
-
-
 
 #if (USE_FREERTOS == 1)
 	#include "FreeRTOS.h"
@@ -57,15 +48,12 @@ private:
 	}
 
 public:
-
-
-
     inline unsigned short length()
     {
         return count;
     }
 
-    /* To clear*/
+    /* Clears elements of the list */
     ~class_LIST()
     {
         clear();
@@ -77,9 +65,10 @@ public:
         while (glava != NULL)
         {
             vozlisce_data_obj_t *temp = glava->naslednji;
-            /* Deconstruct sub elements first */
-            glava->podatek.~tip();
 
+            /* Deconstruct sub elements in case of multi dimentional lists */
+            glava->podatek.~tip();
+            
         #if USE_FREERTOS
             vPortFree(glava)
         #else
