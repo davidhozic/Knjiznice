@@ -1,6 +1,6 @@
 #ifndef SEZNAM_INC
 #define SEZNAM_INC
-
+#include <type_traits>
 #include <stdlib.h>
 #include <stdint.h>
 
@@ -13,7 +13,7 @@
 
 
 
-#if (USE_FREERTOS_MALLOC == 1)
+#if (USE_FREERTOS == 1)
 	#include "FreeRTOS.h"
 #endif
 
@@ -44,6 +44,7 @@ private:
         {
             glava = glava->prejsnji;
         }
+        glava_index = 0;
     }
 
     inline void pojdi_konec()
@@ -52,6 +53,7 @@ private:
         {
             glava = glava->naslednji;
         }
+        glava_index = count-1;
 	}
 
 public:
@@ -62,35 +64,38 @@ public:
     {
         return count;
     }
-	
+
+    /* To clear*/
+    ~class_LIST()
+    {
+        clear();
+    }
+
     void clear()
     {
         pojdi_zacetek();
         while (glava != NULL)
         {
             vozlisce_data_obj_t *temp = glava->naslednji;
-		#if (AVR_MODE == 0)
-            delete (glava);
-		#else
-			free(glava);
-			#warning "WARNING! AVR_MODE is enabled which means free() will be used instead of delete() which WILL cause MEMORY leaks if you delete a MULTI-dimensional list. If 1D list is used, there will be no problems."
-		#endif
+            /* Deconstruct sub elements first */
+            glava->podatek.~tip();
+
+        #if USE_FREERTOS
+            vPortFree(glava)
+        #else
+            free(glava);
+        #endif
             glava = temp;
+            glava_index++;
         }
         count = 0;
+        glava_index = 0;
     }
-
-    /* Deconstructor to delete sub elements */
-    ~class_LIST()
-    {
-        clear();    // Clears sub elements of the head in case head is another linked list
-    }
-
-
     
+
 	void add_front(tip vrednost)
     {
-	#if (USE_FREERTOS_MALLOC == 1)
+	#if (USE_FREERTOS == 1)
         vozlisce_data_obj_t *nov = (vozlisce_data_obj_t *) pvPortMalloc(sizeof(vozlisce_data_obj_t));
     #else
 		vozlisce_data_obj_t *nov = (vozlisce_data_obj_t *) malloc(sizeof(vozlisce_data_obj_t));
@@ -112,7 +117,7 @@ public:
     void add_end(tip vrednost)
     {
 
-	#if (USE_FREERTOS_MALLOC == 1)
+	#if (USE_FREERTOS == 1)
 		vozlisce_data_obj_t *nov = (vozlisce_data_obj_t *) pvPortMalloc(sizeof(vozlisce_data_obj_t));
 	#else
 		vozlisce_data_obj_t *nov = (vozlisce_data_obj_t *) malloc(sizeof(vozlisce_data_obj_t));
@@ -148,6 +153,4 @@ public:
         return (glava->podatek);
     }
 };
-
-
 #endif
