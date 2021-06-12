@@ -3,10 +3,17 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include "list_settings.hh"
+#include <type_traits>
 
 #if (USE_FREERTOS == 1)
 	#include "FreeRTOS.h"
 #endif
+
+#if (INCLUDE_IOSTREAM == 1)
+    #include <iostream>
+#endif
+
+
 
 
 template <typename tip>
@@ -14,21 +21,21 @@ class class_LIST
 {
 private:
 
-    class vozlisce_data_obj_t
+    struct vpdt
     {
-    public:
         friend class class_LIST<tip>;
-
     private:
-        vozlisce_data_obj_t *naslednji;
-        vozlisce_data_obj_t *prejsnji;
+        vpdt *naslednji;
+        vpdt *prejsnji;
         tip podatek;
+        
     };
 
-    vozlisce_data_obj_t *glava = NULL;
-    unsigned short count = 0;
-    unsigned short glava_index = 0;
-
+    vpdt *glava = NULL;
+    unsigned long count = 0;
+    unsigned long glava_index = 0;
+    
+    
     inline void pojdi_zacetek()
     {
         while (glava != NULL && glava->prejsnji != NULL)
@@ -44,7 +51,8 @@ private:
         {
             glava = glava->naslednji;
         }
-        glava_index = count-1;
+        if (count > 0)
+            glava_index = count-1;
 	}
 
 public:
@@ -53,41 +61,13 @@ public:
         return count;
     }
 
-    /* Clears elements of the list */
-    ~class_LIST()
-    {
-        clear();
-    }
-
-    void clear()
-    {
-        pojdi_zacetek();
-        while (glava != NULL)
-        {
-            vozlisce_data_obj_t *temp = glava->naslednji;
-
-            /* Deconstruct sub elements in case of multi dimentional lists */
-            glava->podatek.~tip();
-            
-        #if USE_FREERTOS
-            vPortFree(glava)
-        #else
-            free(glava);
-        #endif
-            glava = temp;
-            glava_index++;
-        }
-        count = 0;
-        glava_index = 0;
-    }
-    
 
 	void add_front(tip vrednost)
     {
 	#if (USE_FREERTOS == 1)
-        vozlisce_data_obj_t *nov = (vozlisce_data_obj_t *) pvPortMalloc(sizeof(vozlisce_data_obj_t));
+        vpdt *nov = (vpdt *) pvPortMalloc(sizeof(vpdt));
     #else
-		vozlisce_data_obj_t *nov = (vozlisce_data_obj_t *) malloc(sizeof(vozlisce_data_obj_t));
+		vpdt *nov = (vpdt *) malloc(sizeof(vpdt));
 	#endif
 		pojdi_zacetek();
 
@@ -107,9 +87,9 @@ public:
     {
 
 	#if (USE_FREERTOS == 1)
-		vozlisce_data_obj_t *nov = (vozlisce_data_obj_t *) pvPortMalloc(sizeof(vozlisce_data_obj_t));
+		vpdt *nov = (vpdt *) pvPortMalloc(sizeof(vpdt));
 	#else
-		vozlisce_data_obj_t *nov = (vozlisce_data_obj_t *) malloc(sizeof(vozlisce_data_obj_t));
+		vpdt *nov = (vpdt *) malloc(sizeof(vpdt));
 	#endif
 
         pojdi_konec();
@@ -125,7 +105,67 @@ public:
         glava_index = count - 1;
     }
 
-    tip &operator[](unsigned short index)
+    tip pop_end()
+    {
+        tip return_data;
+        if (std::is_scalar<tip>::value == false)
+        {
+            throw (-1);
+        }
+        if (glava != NULL)
+        {
+            pojdi_konec();
+            return_data = glava->podatek;
+            vpdt *prev = glava->prejsnji;
+            if (prev != NULL)
+                prev->naslednji = NULL;
+        
+        #if (USE_FREERTOS == 1)
+            vPortFree(glava);
+        #else    
+            free(glava);
+        #endif
+
+            glava = prev;
+            count--;
+            glava_index--;
+        }
+        return return_data;
+    }
+
+#if (INCLUDE_SORT == 1)
+    void sort(tip(*comparator_fnct)(tip , tip))
+    {
+        tip temp;
+        for(uint32_t i = 0; i < count-1;)
+        {
+            if (comparator_fnct((*this)[i], (*this)[i+1]) > 0)
+            {
+                temp = (*this)[i];
+                (*this)[i] = (*this)[i+1];
+                (*this)[i+1] = temp;
+                if (i > 0)
+                    i--;
+            }
+            else    
+                i++; 
+        }
+    }
+#endif
+#if (INCLUDE_IOSTREAM == 1)
+    void print_console()
+    {
+        for (uint32_t i = 0; i < count; i++)
+        {
+            std::cout << std::to_string((*this)[i]) << std::endl;
+        }
+    }
+
+#endif
+
+    /*************************************************/
+#if (USE_OPERATORS == 1)
+    tip &operator[](unsigned long index)
     {
 		while (glava_index < index)
         {
@@ -141,5 +181,28 @@ public:
 
         return (glava->podatek);
     }
+
+
+    class_LIST<tip> operator+(tip pod)
+    {
+        this->add_end(pod);
+        return *this;
+    }
+
+    void operator+=(tip pod)
+    {
+        this->add_end(pod);
+    }
+#endif
 };
+    
+#if (USE_OPERATORS == 1)
+template <class cl, typename tip>
+class_LIST<tip> operator+(tip pod, cl obj)
+{
+    obj.add_front(pod);
+    return obj;
+}
+#endif
+
 #endif
