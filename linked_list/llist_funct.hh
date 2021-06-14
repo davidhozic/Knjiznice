@@ -19,7 +19,7 @@ void class_LIST<tip>::pojdi_konec()
         glava_index = count - 1;
 }
 template <typename tip>
-void class_LIST<tip>::head_to_index(uint32_t &index)
+void class_LIST<tip>::head_to_index(uint32_t index)
 {
     while (glava_index > index)
     {
@@ -85,24 +85,22 @@ template <typename tip>
 tip class_LIST<tip>::pop_end()
 {
     tip return_data;
-    if (glava != NULL)
-    {
-        pojdi_konec();
-        return_data = glava->podatek;
-        vpdt *prev = glava->prejsnji;
-        if (prev != NULL)
-            prev->naslednji = NULL;
+    pojdi_konec();
+    return_data = glava->podatek;
+    vpdt *prev = glava->prejsnji;
+    if (prev != NULL)
+        prev->naslednji = NULL;
 
 #if (USE_FREERTOS == 1)
-        vPortFree(glava);
+    PortFree(glava);
 #else
-        free(glava);
+    free(glava);
 #endif
 
-        glava = prev;
-        count--;
-        glava_index--;
-    }
+    glava = prev;
+    count--;
+    glava_index--;
+    
     return return_data;
 }
 
@@ -131,9 +129,11 @@ void class_LIST<tip>::sort(tip (*comparator_fnct)(tip, tip))
 template <typename tip>
 void class_LIST<tip>::print_console()
 {
+    pojdi_zacetek();
     for (uint32_t i = 0; i < count; i++)
     {
-        std::cout << std::to_string((*this)[i]) << std::endl;
+        using namespace std;
+        cout << (*this)[i] << endl;
     }
 }
 #endif
@@ -161,6 +161,7 @@ void class_LIST<tip>::remove_by_index(uint32_t index)
 
     free(glava);
     glava = new_head;
+    count--;
 }
 template <typename tip>
 void class_LIST<tip>::splice(uint32_t index, uint32_t num_to_remove)
@@ -169,7 +170,6 @@ void class_LIST<tip>::splice(uint32_t index, uint32_t num_to_remove)
     {
         remove_by_index(index);
         num_to_remove--;
-        count--;
     }
 }
 
@@ -178,17 +178,16 @@ void class_LIST<tip>::splice(uint32_t index, uint32_t num_to_remove)
 template <typename tip>
 tip &class_LIST<tip>::operator[](unsigned long index)
 {
-    if (index < count - 1)
-    {
-        head_to_index(index);
-    }
+    
+    head_to_index(index);
+    
     return (glava->podatek);
 }
 
 template <typename tip, class cl>
 class_LIST<tip> operator+(tip pod, cl obj)
 {
-    obj.add_end(pod);
+    obj.add_front(pod);
     return obj;
 }
 

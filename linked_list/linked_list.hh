@@ -36,7 +36,7 @@ private:
 
     void pojdi_zacetek();
     void pojdi_konec();
-    void head_to_index(uint32_t &index);
+    void head_to_index(uint32_t index);
     
 public:
 
