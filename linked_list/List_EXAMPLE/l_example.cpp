@@ -14,7 +14,7 @@ using namespace std;
 
 
 
-class_LIST <TYPE> example_list;
+LIST_t <TYPE> example_list;
 
 
 

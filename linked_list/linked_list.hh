@@ -16,13 +16,13 @@
 
 
 template <typename tip>
-class class_LIST
+class LIST_t
 {
 private:
 
     struct vpdt
     {
-        friend class class_LIST<tip>;
+        friend class LIST_t<tip>;
     private:
         vpdt *naslednji;
         vpdt *prejsnji;
@@ -60,19 +60,20 @@ public:
 
     /*************************************************/
 #if (USE_OPERATORS == 1)
+
     tip &operator[](unsigned long index);
    
-    class_LIST<tip> operator+(tip pod);
+    LIST_t<tip> operator+(tip pod);
     
     void operator+=(tip pod);
 
-
 #endif
+
 };
     
 #if (USE_OPERATORS == 1)
 template <typename tip, class cl>
-class_LIST<tip> operator+(tip pod, cl obj);
+LIST_t<tip> operator+(tip pod, cl obj);
 #endif
 
 

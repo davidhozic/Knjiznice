@@ -10,6 +10,6 @@ This library includes:
 length() - returns the amount of elements in the list; sort() - sorts the elements based on a compare function, pop_back - return last element and removes it from the list, print_console - prints the contents of the list. As an alternative, you can also use OPERATORS to perform operations such as : "example += 5", "example = example + 5" <-- adds element to the end of the list,
 "example = 5 + example" <---- adds element to the front. 
 The list does NOT use a constructor so items can be added to it thru constructors of other objects.
-  It also uses a template so it can be made for any type which can also be another class_LIST <type> (creates 2d list) -> Example: class_LIST <class_LIST<int>> list_1 -> creates a 2d list. To add a sub_list to the 2d list do:  list_1.add_end( class_LIST<int> () ) 
+  It also uses a template so it can be made for any type which can also be another LIST_t <type> (creates 2d list) -> Example: LIST_t <LIST_t<int>> list_1 -> creates a 2d list. To add a sub_list to the 2d list do:  list_1.add_end( LIST_t<int> () ) 
 NOTE! To access the elements in linked list, use  "object_name [index]". Do not reverse index and object_name as this is not a pointer but an operator overload funtion.
 

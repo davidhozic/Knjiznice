@@ -1,6 +1,6 @@
 
 template <typename tip>
-void class_LIST<tip>::pojdi_zacetek()
+void LIST_t<tip>::pojdi_zacetek()
 {
     while (glava != NULL && glava->prejsnji != NULL)
     {
@@ -9,7 +9,7 @@ void class_LIST<tip>::pojdi_zacetek()
     glava_index = 0;
 }
 template <typename tip>
-void class_LIST<tip>::pojdi_konec()
+void LIST_t<tip>::pojdi_konec()
 {
     while (glava != NULL && glava->naslednji != NULL)
     {
@@ -19,7 +19,7 @@ void class_LIST<tip>::pojdi_konec()
         glava_index = count - 1;
 }
 template <typename tip>
-void class_LIST<tip>::head_to_index(uint32_t index)
+void LIST_t<tip>::head_to_index(uint32_t index)
 {
     while (glava_index > index)
     {
@@ -34,18 +34,16 @@ void class_LIST<tip>::head_to_index(uint32_t index)
     }
 }
 template <typename tip>
-unsigned short class_LIST<tip>::length()
+unsigned short LIST_t<tip>::length()
 {
     return count;
 }
 template <typename tip>
-void class_LIST<tip>::add_front(tip vrednost)
+void LIST_t<tip>::add_front(tip vrednost)
 {
-#if (USE_FREERTOS == 1)
-    vpdt *nov = (vpdt *)pvPortMalloc(sizeof(vpdt));
-#else
-    vpdt *nov = (vpdt *)malloc(sizeof(vpdt));
-#endif
+
+    vpdt *nov = new vpdt;
+
     pojdi_zacetek();
 
     if (glava != NULL)
@@ -60,14 +58,10 @@ void class_LIST<tip>::add_front(tip vrednost)
     glava_index = 0;
 }
 template <typename tip>
-void class_LIST<tip>::add_end(tip vrednost)
+void LIST_t<tip>::add_end(tip vrednost)
 {
 
-#if (USE_FREERTOS == 1)
-    vpdt *nov = (vpdt *)pvPortMalloc(sizeof(vpdt));
-#else
-    vpdt *nov = (vpdt *)malloc(sizeof(vpdt));
-#endif
+    vpdt *nov = new vpdt;
 
     pojdi_konec();
     if (glava != NULL)
@@ -82,7 +76,7 @@ void class_LIST<tip>::add_end(tip vrednost)
     glava_index = count - 1;
 }
 template <typename tip>
-tip class_LIST<tip>::pop_end()
+tip LIST_t<tip>::pop_end()
 {
     tip return_data;
     pojdi_konec();
@@ -91,11 +85,8 @@ tip class_LIST<tip>::pop_end()
     if (prev != NULL)
         prev->naslednji = NULL;
 
-#if (USE_FREERTOS == 1)
-    PortFree(glava);
-#else
-    free(glava);
-#endif
+    delete glava;
+
 
     glava = prev;
     count--;
@@ -106,7 +97,7 @@ tip class_LIST<tip>::pop_end()
 
 #if (INCLUDE_SORT == 1)
 template <typename tip>
-void class_LIST<tip>::sort(tip (*comparator_fnct)(tip, tip))
+void LIST_t<tip>::sort(tip (*comparator_fnct)(tip, tip))
 {
     tip temp;
     for (uint32_t i = 0; i < count - 1;)
@@ -127,7 +118,7 @@ void class_LIST<tip>::sort(tip (*comparator_fnct)(tip, tip))
 
 #if (INCLUDE_IOSTREAM == 1)
 template <typename tip>
-void class_LIST<tip>::print_console()
+void LIST_t<tip>::print_console()
 {
     pojdi_zacetek();
     for (uint32_t i = 0; i < count; i++)
@@ -138,7 +129,7 @@ void class_LIST<tip>::print_console()
 }
 #endif
 template <typename tip>
-void class_LIST<tip>::remove_by_index(uint32_t index)
+void LIST_t<tip>::remove_by_index(uint32_t index)
 {
     head_to_index(index);
     vpdt *new_head;
@@ -159,12 +150,12 @@ void class_LIST<tip>::remove_by_index(uint32_t index)
         glava_index--;
     }
 
-    free(glava);
+    delete glava;
     glava = new_head;
     count--;
 }
 template <typename tip>
-void class_LIST<tip>::splice(uint32_t index, uint32_t num_to_remove)
+void LIST_t<tip>::splice(uint32_t index, uint32_t num_to_remove)
 {
     while (num_to_remove > 0)
     {
@@ -173,10 +164,13 @@ void class_LIST<tip>::splice(uint32_t index, uint32_t num_to_remove)
     }
 }
 
+
+
+
 /*************************************************/
 #if (USE_OPERATORS == 1)
 template <typename tip>
-tip &class_LIST<tip>::operator[](unsigned long index)
+tip &LIST_t<tip>::operator[](unsigned long index)
 {
     
     head_to_index(index);
@@ -185,23 +179,21 @@ tip &class_LIST<tip>::operator[](unsigned long index)
 }
 
 template <typename tip, class cl>
-class_LIST<tip> operator+(tip pod, cl obj)
+LIST_t<tip> operator+(tip pod, cl obj)
 {
     obj.add_front(pod);
     return obj;
 }
 
 template <typename tip>
-class_LIST<tip> class_LIST<tip>::operator+(tip pod)
+LIST_t<tip> LIST_t<tip>::operator+(tip pod)
 {
     this->add_end(pod);
     return (*this);
 }
 
-
-
 template <typename tip>
-void class_LIST<tip>::operator+=(tip pod)
+void LIST_t<tip>::operator+=(tip pod)
 {
     this->add_end(pod);
 }

@@ -1,16 +1,19 @@
-CC := g++
+CC := gcc
 
-CPP_FLAGS := -O2\
--std=c++11\
--ggdb\
 
+CCPP := g++
+
+CPP_FLAGS := 
 C_FLAGS := 
-GLOBAL_H :=
+GLOBAL_H :=-include stdint.h\
+
 FLD_INC := -I .//\
 -I ./List_EXAMPLE/\
+-I ./.vscode/\
 
 SRC_DIRS := .//\
 ./List_EXAMPLE/\
+./.vscode/\
 
 CPP_SRC := ./List_EXAMPLE/l_example.cpp\
 
@@ -21,7 +24,7 @@ HEADER_SRC := .//llist_funct.hh\
 
 O_FILES := Build/List_EXAMPLE/l_example.o\
 ##############
-OUT_FILE := Test.hex
+OUT_FILE := Test.bin
 OUT_DIR := Build/
 ##############################
 clean:
@@ -31,11 +34,11 @@ CR_DIRS:
 	for dir in $(SRC_DIRS);do mkdir -p $(OUT_DIR)$$dir; done
 
 all: CR_DIRS $(O_FILES)
-	$(CC) $(O_FILES) $(COMPILER_FLAGS) $(GLOBAL_H) $(FLD_INC) -o $(OUT_DIR)$(OUT_FILE)
+	$(CCPP) $(O_FILES) $(LINK_COMPILER_FLAGS) $(GLOBAL_H) $(FLD_INC) -o $(OUT_DIR)$(OUT_FILE)
 
 Build/List_EXAMPLE/l_example.o : $(HEADER_SRC) ./List_EXAMPLE/l_example.cpp
 	echo "Compiling "./List_EXAMPLE/l_example.cpp
-	$(CC) -c ./List_EXAMPLE/l_example.cpp $(CPP_FLAGS) $(GLOBAL_H) $(FLD_INC) -o $@
+	$(CCPP) -c ./List_EXAMPLE/l_example.cpp $(CPP_FLAGS) $(GLOBAL_H) $(FLD_INC) -o $@
 
 
 
