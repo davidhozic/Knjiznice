@@ -67,6 +67,7 @@ public:
     
     void operator+=(tip pod);
 
+	
 #endif
 
 };
@@ -79,7 +80,7 @@ LIST_t<tip> operator+(tip pod, cl obj);
 
 
 
-#include "llist_funct.hh"
+#include "llist_funct.hpp"
 
 #endif
 

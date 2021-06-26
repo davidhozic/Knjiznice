@@ -1,7 +1,7 @@
 
 
 
-#include "./castimer.hh"
+#include "castimer.hpp"
 #include <math.h>
 #if (SOURCE_INTERUPT == 1)
 	#include "util/atomic.h"
@@ -26,7 +26,7 @@
 
 /* Initialization of timer list */
 #if (SOURCE_INTERUPT == 1)
-	LIST_t <TIMER_t*> TIMER_t::timer_list;
+	LIST_t <TIMER_t*> timer_list;
 #endif
 
 uint32_t TIMER_t::value()
@@ -67,7 +67,7 @@ TIMER_t::TIMER_t()
 {
 	ATOMIC_BLOCK(ATOMIC_FORCEON)
 	{
-		TIMER_t::timer_list.add_end(this);
+		timer_list.add_end(this);
 	}
 }
 #endif
@@ -90,13 +90,15 @@ TIMER_t::TIMER_t()
 
 	ISR(TIMER_ISR_VECTOR)
 	{
-		for (uint16_t ind = 0, len = TIMER_t::timer_list.length() ; ind < len ; ind++)
+		
+		for (uint16_t ind = 0, len = timer_list.length() ; ind < len ; ind++)
 		{
-			TIMER_t::timer_list[ind]->increment();
+			timer_list[ind]->increment();
 		}
+		
 	}
 	
-	void TIMER_t::set_hook(void (*function_ptr)(void*), uint32_t call_period, void* function_param_ptr)
+	void TIMER_t::set_hook(void (*function_ptr)(void*), uint32_t call_period ,void* function_param_ptr)
 	{
 		this->function_ptr = function_ptr;
 		this->function_call_period = call_period;
