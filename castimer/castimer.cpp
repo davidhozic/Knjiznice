@@ -26,12 +26,21 @@
 
 /* Initialization of timer list */
 #if (SOURCE_INTERUPT == 1)
-	LIST_t <TIMER_t*> timer_list;
+	LIST_t <TIMER_t*> TIMER_t::timer_list;
 #endif
 
 uint32_t TIMER_t::value()
 {
 #if (SOURCE_INTERUPT == 1)
+	if (!init)
+	{
+		ATOMIC_BLOCK(ATOMIC_FORCEON)
+		{
+			TIMER_t::timer_list.add_end(this);
+		}
+		init = 1;
+	}
+
 	timer_enabled = true;				
 	uint32_t temp_timer_value;
 	ATOMIC_BLOCK(ATOMIC_FORCEON)
@@ -65,10 +74,8 @@ void TIMER_t::reset()
 #if (SOURCE_INTERUPT == 1)
 TIMER_t::TIMER_t()
 {
-	ATOMIC_BLOCK(ATOMIC_FORCEON)
-	{
-		timer_list.add_end(this);
-	}
+	init = false;
+	timer_enabled = false;
 }
 #endif
 

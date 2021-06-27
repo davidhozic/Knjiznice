@@ -13,8 +13,9 @@
 class TIMER_t
 {
 private:
-	volatile bool timer_enabled = false;
-	volatile uint32_t timer_value = 0;
+	bool timer_enabled : 1 ;
+	uint32_t timer_value = 0;
+	bool init : 1;
 
 	/* Hook Function */
 	void (*function_ptr)(void*) = NULL;
@@ -27,11 +28,12 @@ public:
 	void increment();
 	#if (SOURCE_INTERUPT == 1)
 		void set_hook(void (*function_ptr)(void*), uint32_t call_period, void* function_param_ptr);
-		explicit TIMER_t();
+		TIMER_t();
+		static LIST_t <TIMER_t *> timer_list;
 	#endif
 };
 
-extern LIST_t <TIMER_t *> timer_list;
+
 
 
 
