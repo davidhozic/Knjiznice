@@ -24,7 +24,7 @@ private:
     uint8_t port;
 
 #if (USE_FILTERING == 1)
-	TIMER_t *filter_timer;
+	TIMER_t filter_timer;
 #endif
 
 public:

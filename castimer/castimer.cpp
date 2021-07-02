@@ -26,19 +26,16 @@
 
 /* Initialization of timer list */
 #if (SOURCE_INTERUPT == 1)
-	LIST_t <TIMER_t*> TIMER_t::timer_list;
+	LIST_t <TIMER_t *> TIMER_t::timer_list;
 #endif
 
 uint32_t TIMER_t::value()
 {
 #if (SOURCE_INTERUPT == 1)
-	if (!init)
+
+	if (!initialized)	/* Must initialize post FreeRTOS start due to memory issues */
 	{
-		ATOMIC_BLOCK(ATOMIC_FORCEON)
-		{
-			TIMER_t::timer_list.add_end(this);
-		}
-		init = 1;
+		init();
 	}
 
 	timer_enabled = true;				
@@ -72,11 +69,16 @@ void TIMER_t::reset()
 }
 
 #if (SOURCE_INTERUPT == 1)
-TIMER_t::TIMER_t()
+
+void TIMER_t::init()
 {
-	init = false;
-	timer_enabled = false;
+	ATOMIC_BLOCK(ATOMIC_FORCEON)
+	{
+		TIMER_t::timer_list += this;
+		initialized = true;
+	}
 }
+
 #endif
 
 
@@ -97,12 +99,10 @@ TIMER_t::TIMER_t()
 
 	ISR(TIMER_ISR_VECTOR)
 	{
-		
-		for (uint16_t ind = 0, len = timer_list.length() ; ind < len ; ind++)
+		for (uint16_t ind = 0, len = TIMER_t::timer_list.length() ; ind < len ; ind++)
 		{
-			timer_list[ind]->increment();
+			TIMER_t::timer_list[ind]->increment();
 		}
-		
 	}
 	
 	void TIMER_t::set_hook(void (*function_ptr)(void*), uint32_t call_period ,void* function_param_ptr)
