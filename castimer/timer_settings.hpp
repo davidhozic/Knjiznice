@@ -26,15 +26,19 @@ RESETTING THE ELAPSED TIME:
 
 /*********************************************	SETTINGS	*************************************************/
 
-#define SOURCE_INTERUPT								( 1 )			// Use ISR as timing source
-	#define TIMER_ISR_VECTOR						( TIMER3_COMPA_vect )	
-	#define TIMER_INCREMENT_VALUE_MS				( 1 )
 
-#define SOURCE_SYSTEM_TIME							( 0 )			// Use System time as source
-#if (SOURCE_SYSTEM_TIME == 1)
-	#include "path_to_system_time_function_prototype"	
-	#define SYSTEM_TIME_FUNCTION				   	(  some_function_call()	 )
-#endif
+/*   INTERRUPT MODE   */
+#define TIMER_CFG_USE_INTERRUPT                     0
+#define TIMER_CFG_ISR_VECTOR				 TIMER3_COMPA_vect  // WARNING! The timer hardware must be configured manually, but you DONT'T need to create an ISR 
+#define TIMER_CFG_INCREMENT_VALUE   			    1 
+
+
+/*  SYSTEM TIME MODE  */
+#define TIMER_CFG_USE_SYSTEM_TIME                   1
+#define TIMER_CFG_SYSTEM_TIME_FUNCTION      sys_timer_elapsed_ms()    // System time function call 
+#define TIMER_CFG_SYSTEM_TIME_HEADER                ""          // Path to the header where the system time function is located
+
+
 
 /* 
  If SOURCE_INTERRUPT is enabled, the timers will be added to a linked list and get incremented thru an
