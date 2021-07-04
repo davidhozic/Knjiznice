@@ -272,7 +272,7 @@ void LIST_t<tip>::splice(uint32_t start_index, uint32_t num_to_remove)
  *  RETURN:      Reference return of custom type data at specific index
  **********************************************************************/
 
-#if (USE_OPERATORS == 1)
+#if (USE_OPERATORS)
 template <typename tip>
 tip &LIST_t<tip>::operator[](unsigned long index)
 {
@@ -292,6 +292,5 @@ void LIST_t<tip>::operator+=(tip pod)
 {
     this->add_end(pod);
 }
-
 
 #endif
