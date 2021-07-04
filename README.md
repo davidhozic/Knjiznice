@@ -24,7 +24,7 @@ The LITL library - Linked-list, Input, Timer, Library
   - A linked list without constructor (can be used even before call of function main), supports operator overloads, and many other high language features.
   - It uses a TEMPLATE PARAMETER meaning you can tell it what the variable type will be.
   - FUNCTIONS:
-      
+        
      *  FUNCTION:    length()
      *  PARAMETERS:  void
      *  DESCRIPTION: Returns the number of elements in the list     
@@ -66,8 +66,7 @@ The LITL library - Linked-list, Input, Timer, Library
 
     
      *  FUNCTION:    sort()
-     *  PARAMETERS:  int function_comparator_function
-     *               (must return < 0 if element 1 is before element 2)
+     *  PARAMETERS:  int function_comparator_function (must return < 0 if element 1 is before element 2)
      *  DESCRIPTION: Sorts elements in the list                         
      *  RETURN:      void
      
@@ -77,8 +76,7 @@ The LITL library - Linked-list, Input, Timer, Library
     
      *  FUNCTION:    print_console()
      *  PARAMETERS:  void
-     *  DESCRIPTION: Prints the contents of the list to the console 
-     *               ( elements must be a string or a number )                          
+     *  DESCRIPTION: Prints the contents of the list to the console  ( elements must be a string or a number )                         
      *  RETURN:      void
      
 
@@ -88,8 +86,7 @@ The LITL library - Linked-list, Input, Timer, Library
     
      *  FUNCTION:    remove_by_index ()
      *  PARAMETERS:  uint32_t index of element to remove
-     *  DESCRIPTION: Removes the element by index,  moves the contents on
-     *               the right to the left                        
+     *  DESCRIPTION: Removes the element by index,  moves the contents on the right to the left                        
      *  RETURN:      void
      
 
@@ -99,9 +96,8 @@ The LITL library - Linked-list, Input, Timer, Library
     
      *  FUNCTION:    splice ()
      *  PARAMETERS:  uint32 start_index, uint32 number of elements to remove
-     *  DESCRIPTION: Removes the specified number of elements, starting at                       
-     *               start index  
-     *  RETURN:      void
+     *  DESCRIPTION: Removes the specified number of elements, starting at start index  
+     *  RETURN:    void
      
 
     splice(uint32_t start_index, uint32_t num_to_remove);
