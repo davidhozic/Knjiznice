@@ -101,6 +101,14 @@ The LITL library - Linked-list, Input, Timer, Library
      
 
     splice(uint32_t start_index, uint32_t num_to_remove);
+    
+     *  FUNCTION:    peek ()
+     *  PARAMETERS:  void
+     *  DESCRIPTION: returns a copy of the last element in the list
+     *  RETURN:    custom_type
+     
+
+    peek();
 
 
 
