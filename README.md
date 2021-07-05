@@ -14,7 +14,7 @@ The LITL library - Linked-list, Input, Timer, Library
     - bool fallen_edge(); -> Returns 1 if input went from 1 to 0 from the last function call, the fallen edge bit is cleared if this function is called or if input is 1
   
 - TIMER:
-  - A universal timer class, if on interrupt mode, then it will only work on avr.
+  - An universal timer class, if on interrupt mode, then it will only work on avr.
   - Supports interrupt mode (every timer is incremented in an ISR) or system time mode (time difference)
   - Functions: 
     - uint32_t value(); -> Starts the timer and returns the value
