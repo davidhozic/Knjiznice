@@ -259,6 +259,20 @@ void LIST_t<tip>::splice(uint32_t start_index, uint32_t num_to_remove)
     }
 }
 
+/**********************************************************************
+ *  FUNCTION:    peek ()
+ *  PARAMETERS:  void
+ *  DESCRIPTION: returns a copy of the last element 
+ *  RETURN:      void
+ **********************************************************************/
+template <typename tip>
+tip LIST_t<tip>::peek()
+{
+    pojdi_konec();
+    return glava->podatek;
+}
+
+
 
 
 /********************************************************************************************/

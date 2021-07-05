@@ -59,7 +59,7 @@ public:
 
     void remove_by_index(uint32_t index);
     void splice(uint32_t index, uint32_t num_to_remove);
-
+    tip peek();
 
     /*************************************************/
 #if (USE_OPERATORS == 1)
