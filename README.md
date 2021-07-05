@@ -6,7 +6,7 @@ The LITL library - Linked-list, Input, Timer, Library
 - INPUT:
   - An input class for avr inputs
   - Supports: Rising Edge, Falling Edge, Filtering (requres castimer)
-  - Initialization :  INPUT_t example("pin","port", bool invert state);  or  INPUT_t example = INPUT_t("pin","port", bool invert state);
+  - Initialization :  INPUT_t example("pin","port", bool invert state);  or  INPUT_t example = INPUT_t(pin,'port letter', bool invert state);
                                                     If invert state is set to 1, the input's value will be inverted from the PIN register value
   - Functions: 
     - bool value(); -> Returns value of the input
