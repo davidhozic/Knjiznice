@@ -6,7 +6,7 @@ The LITL library - Linked-list, Input, Timer, Library
 - INPUT:
   - An input class for avr inputs
   - Supports: Rising Edge, Falling Edge, Filtering (requres castimer)
-  - Initialization :  INPUT_t example("pin","port", bool invert state);  or  INPUT_t example = INPUT_t("pin","port", bool invert state);
+  - Initialization :  INPUT_t example("pin","port", bool invert state);  or  INPUT_t example = INPUT_t(pin,'port letter', bool invert state);
                                                     If invert state is set to 1, the input's value will be inverted from the PIN register value
   - Functions: 
     - bool value(); -> Returns value of the input
@@ -14,24 +14,26 @@ The LITL library - Linked-list, Input, Timer, Library
     - bool fallen_edge(); -> Returns 1 if input went from 1 to 0 from the last function call, the fallen edge bit is cleared if this function is called or if input is 1
   
 - TIMER:
-  - A universal timer class, if on interrupt mode, then it will only work on avr.
+  - An universal timer class, if on interrupt mode, then it will only work on avr.
   - Supports interrupt mode (every timer is incremented in an ISR) or system time mode (time difference)
   - Functions: 
     - uint32_t value(); -> Starts the timer and returns the value
     - void reset();     -> Resets the timer and disables it
-	  - void set_hook(function to call, calling period, pointer of parameter to send to function); [ ONLY AVAILABLE IN INTERRUPT MODE] -> attaches function to the timer which gets called every specified period, then the timer auto reloads. To reset back into normal mode, call this function again but with NULL, 0, NULL as parameters.
+    - void set_hook(function to call, calling period, pointer of parameter to send to function); [ ONLY AVAILABLE IN INTERRUPT MODE] -> attaches function to the timer which gets called every specified period, then the timer auto reloads. To reset back into normal mode, call this function again but with NULL, 0, NULL as parameters.
 - LINKED LIST:
   - A linked list without constructor (can be used even before call of function main), supports operator overloads, and many other high language features.
   - It uses a TEMPLATE PARAMETER meaning you can tell it what the variable type will be.
-  - FUNCTIONS:
-        
+
+-------------------------------------------------------------------------------------------
+LINKED LIST FUNCTIONS |
+----------------------
+
      *  FUNCTION:    length()
      *  PARAMETERS:  void
      *  DESCRIPTION: Returns the number of elements in the list     
      *  RETURN:      void                                   
      
-
-    unsigned short length();
+-------------------------------------------------------------------------------------------
 
 
     
@@ -41,8 +43,7 @@ The LITL library - Linked-list, Input, Timer, Library
      *  RETURN:      void               
      
 
-    void add_front(your_data_type value);
-
+-------------------------------------------------------------------------------------------
     
      *  FUNCTION:    add_end()
      *  PARAMETERS:  custom_type value
@@ -50,7 +51,7 @@ The LITL library - Linked-list, Input, Timer, Library
      *  RETURN:      void         
      
 
-    add_end(your_data_type value);
+-------------------------------------------------------------------------------------------
 
 
     
@@ -59,9 +60,7 @@ The LITL library - Linked-list, Input, Timer, Library
      *  DESCRIPTION: removes the last element and returns it
      *  RETURN:      Custom type element at the end of the list                     
      
-
-    your_data_type pop_end();
-
+-------------------------------------------------------------------------------------------
 
 
     
@@ -71,7 +70,7 @@ The LITL library - Linked-list, Input, Timer, Library
      *  RETURN:      void
      
 
-    void sort(comparator function);
+-------------------------------------------------------------------------------------------
 
     
      *  FUNCTION:    print_console()
@@ -80,7 +79,7 @@ The LITL library - Linked-list, Input, Timer, Library
      *  RETURN:      void
      
 
-    void print_console();
+-------------------------------------------------------------------------------------------
 
 
     
@@ -90,7 +89,7 @@ The LITL library - Linked-list, Input, Timer, Library
      *  RETURN:      void
      
 
-    remove_by_index(uint32_t index);
+-------------------------------------------------------------------------------------------
 
 
     
@@ -100,24 +99,24 @@ The LITL library - Linked-list, Input, Timer, Library
      *  RETURN:    void
      
 
-    splice(uint32_t start_index, uint32_t num_to_remove);
-
-
-
-    /
-                                           OPERATORS                                              
-    /
-
+-------------------------------------------------------------------------------------------
+    
+     *  FUNCTION:    peek ()
+     *  PARAMETERS:  void
+     *  DESCRIPTION: returns a copy of the last element in the list
+     *  RETURN:    custom_type
+    
+                                             
+-------------------------------------------------------------------------------------------
+LINKED LIST OPERATORS |
+-----------
     
      *  OPERATOR:    [] 
      *  PARAMETERS:  unsigned long index
      *  DESCRIPTION: returns the element at specific index by reference                    
      *  RETURN:      Reference return of custom type data at specific index
      
-
-
-    your_data_type &operator[](unsigned long index)
-
+-------------------------------------------------------------------------------------------
     
      *  OPERATOR:    +=
      *  PARAMETERS:  custom data
@@ -125,4 +124,3 @@ The LITL library - Linked-list, Input, Timer, Library
      *  RETURN:      void
      
 
-    operator+=(your_data_type pod);
