@@ -4,7 +4,7 @@
 
 
 template <typename tip>
-void LIST_t<tip>::pojdi_zacetek()
+inline void LIST_t<tip>::pojdi_zacetek()
 {
     while (glava != NULL && glava->prejsnji != NULL)
     {
@@ -13,7 +13,7 @@ void LIST_t<tip>::pojdi_zacetek()
     glava_index = 0;
 }
 template <typename tip>
-void LIST_t<tip>::pojdi_konec()
+inline void LIST_t<tip>::pojdi_konec()
 {
     while (glava != NULL && glava->naslednji != NULL)
     {
@@ -31,7 +31,7 @@ void LIST_t<tip>::pojdi_konec()
  **********************************************************************/
 
 template <typename tip>
-void LIST_t<tip>::head_to_index(uint32_t index)
+inline void LIST_t<tip>::head_to_index(uint32_t index)
 {
     while (glava_index > index)
     {
@@ -54,7 +54,7 @@ void LIST_t<tip>::head_to_index(uint32_t index)
  *  RETURN:      void                                   
  **********************************************************************/
 template <typename tip>
-unsigned short LIST_t<tip>::length()
+uint32_t LIST_t<tip>::length()
 {
     return count;
 }
@@ -212,7 +212,7 @@ void LIST_t<tip>::print_console()
  *  RETURN:      void
  **********************************************************************/
 template <typename tip>
-void LIST_t<tip>::remove_by_index(uint32_t index)
+inline void LIST_t<tip>::remove_by_index(uint32_t index)
 {
     head_to_index(index);
     vpdt *new_head;
@@ -230,12 +230,11 @@ void LIST_t<tip>::remove_by_index(uint32_t index)
     else
     {
         new_head = glava->prejsnji;
-        glava_index--;
+        glava_index = glava_index > 0 ? glava_index - 1  : 0;
     }
 
     this->glava->podatek.~tip();  // Call the deconstructor in case data is another list 
     free(glava);
-
 
     glava = new_head;
     count--;
@@ -271,10 +270,6 @@ tip LIST_t<tip>::peek()
     pojdi_konec();
     return glava->podatek;
 }
-
-
-
-
 /********************************************************************************************/
 /*                                       OPERATORS                                          */    
 /********************************************************************************************/

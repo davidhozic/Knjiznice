@@ -29,16 +29,16 @@ private:
     };
 
     vpdt *glava = NULL;
-    unsigned long count = 0;
-    unsigned long glava_index = 0;
+    uint32_t count = 0;
+    uint32_t glava_index = 0;
 
-    void pojdi_zacetek();
-    void pojdi_konec();
-    void head_to_index(uint32_t index);
+    inline void pojdi_zacetek();
+    inline void pojdi_konec();
+    inline void head_to_index(uint32_t index);
    
 public:
 
-    unsigned short length();
+    uint32_t length();
 	void add_front(tip vrednost);
     void add_end(tip vrednost);
     tip pop_end();
@@ -57,7 +57,7 @@ public:
     void print_console();
 #endif
 
-    void remove_by_index(uint32_t index);
+    inline void remove_by_index(uint32_t index);
     void splice(uint32_t index, uint32_t num_to_remove);
     tip peek();
 
