@@ -134,5 +134,5 @@ LINKED LIST OPERATORS |
    *  DESCRIPTION: Adds data to the back/front of the list (data on left, object on right means it will be added to the front)                   
    *  RETURN:      reference to the original object (must be reference otherwise deconstructor will delete the entire content)
 
-     
+-------------------------------------------------------------------------------------------  
 
