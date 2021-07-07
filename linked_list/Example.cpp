@@ -30,11 +30,13 @@ int compare (PERSON_t a , PERSON_t b)
 LIST_t <PERSON_t> people;
 int main()
 {
-    people += PERSON_t("Lucifer", 50);
-    people += PERSON_t("David", 5000);
-    people += PERSON_t("Britney", 100000000);
-    people += PERSON_t("Amanda", 1232);
-    people += PERSON_t("Teja", 10000);
+    people = PERSON_t("Lucifer", 50)  +   people;
+    people = PERSON_t("David", 5000)  +   people;
+    people = PERSON_t("Britney", 100) +   people;
+    people = PERSON_t("Amanda", 1232) +   people;
+    people = PERSON_t("Teja", 10000)  +   people;
+    people = people + PERSON_t("Johny", 100000);
+
 
     cout << "Before sort: "
          << endl;
@@ -48,6 +50,7 @@ int main()
 
     for (uint32_t i = 0, l = people.length(); i < l; i++)
         cout << people[i].name << endl;
+    
 
     return 0;
 }

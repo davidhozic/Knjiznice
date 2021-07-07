@@ -43,11 +43,6 @@ public:
 	void add_front(tip vrednost);
     void add_end(tip vrednost);
     tip pop_end();
-    
-    ~LIST_t<tip>()
-    {
-        splice(0, length());
-    }
 
 #if (INCLUDE_SORT == 1)
     void sort(int (*comparator_fnct)(tip , tip));
@@ -61,14 +56,13 @@ public:
     inline void remove_by_index(uint32_t index);
     void splice(uint32_t index, uint32_t num_to_remove);
     tip peek();
+    void clone(LIST_t<tip> &src);
 
     /*************************************************/
 #if (USE_OPERATORS == 1)
 
     tip &operator[](unsigned long index);
-   
-    void operator+=(tip pod);
-	
+    void operator +=(tip pod);
 #endif
 
 };

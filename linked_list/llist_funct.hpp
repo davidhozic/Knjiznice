@@ -230,7 +230,6 @@ inline void LIST_t<tip>::remove_by_index(uint32_t index)
         glava_index = glava_index > 0 ? glava_index - 1  : 0;
     }
 
-    this->glava->podatek.~tip();  // Call the deconstructor in case data is another list 
     free(glava);
 
     glava = new_head;
@@ -297,6 +296,20 @@ inline void LIST_t <tip>::menjaj_glava_naslednji()
     }
 }
 
+/**********************************************************************
+ *  FUNCTION:    clone
+ *  PARAMETERS:  List of same type
+ *  DESCRIPTION: copies data from a different list to current list
+ *  RETURN:      void
+ **********************************************************************/
+template <typename tip>
+void LIST_t<tip>::clone(LIST_t<tip> &src)
+{
+    splice(0, length());
+    for (uint32_t i = 0, len = src.length(); i < len; i++)
+        add_end(src[i]);
+}   
+
 /********************************************************************************************/
 /*                                       OPERATORS                                          */    
 /********************************************************************************************/
@@ -309,6 +322,7 @@ inline void LIST_t <tip>::menjaj_glava_naslednji()
  **********************************************************************/
 
 #if (USE_OPERATORS)
+
 template <typename tip>
 tip &LIST_t<tip>::operator[](unsigned long index)
 {
@@ -328,5 +342,25 @@ void LIST_t<tip>::operator+=(tip pod)
 {
     this->add_end(pod);
 }
+
+/**********************************************************************
+ *  OPERATOR:    +
+ *  PARAMETERS:  custom data
+ *  DESCRIPTION: Adds data to the back/front of the list (data on left, object on right means it will be added to the front)                   
+ *  RETURN:      reference to the original object (must be reference otherwise deconstructor will delete the entire content)
+ **********************************************************************/
+template <typename tip>
+LIST_t<tip> &operator + (LIST_t<tip> &object, tip src)
+{
+    object.add_end(src);
+    return object;
+}
+template <typename tip>
+LIST_t<tip>  &operator+ (tip data, LIST_t<tip> &object)
+{
+    object.add_front(data);
+    return object;
+}
+
 
 #endif
