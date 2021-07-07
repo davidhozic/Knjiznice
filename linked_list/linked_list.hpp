@@ -35,7 +35,8 @@ private:
     inline void pojdi_zacetek();
     inline void pojdi_konec();
     inline void head_to_index(uint32_t index);
-   
+    inline void menjaj_glava_naslednji();
+
 public:
 
     uint32_t length();

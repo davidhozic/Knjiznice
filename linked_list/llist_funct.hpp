@@ -165,14 +165,11 @@ tip LIST_t<tip>::pop_end()
 template <typename tip>
 void LIST_t<tip>::sort(int (*comparator_fnct)(tip, tip))
 {
-    tip temp;
     for (uint32_t i = 0; i < count - 1;)
     {
         if (comparator_fnct((*this)[i], (*this)[i + 1]) > 0)
         {
-            temp = (*this)[i];
-            (*this)[i] = (*this)[i + 1];
-            (*this)[i + 1] = temp;
+            menjaj_glava_naslednji();
             if (i > 0)
                 i--;
         }
@@ -270,6 +267,36 @@ tip LIST_t<tip>::peek()
     pojdi_konec();
     return glava->podatek;
 }
+
+/**********************************************************************
+ *  FUNCTION:    menjaj_glava_naslednji ()
+ *  PARAMETERS:  void
+ *  DESCRIPTION: switches current element with the next by manipulating pointers
+ *  RETURN:      void
+ **********************************************************************/
+template <typename tip>
+inline void LIST_t <tip>::menjaj_glava_naslednji()
+{
+    vpdt *temp = glava->naslednji;
+    if (temp != NULL)
+    {
+        temp->prejsnji = glava->prejsnji;
+        if (temp->prejsnji != NULL)
+            temp->prejsnji->naslednji = temp;
+        glava->naslednji = temp->naslednji;
+
+        if (temp->naslednji != NULL)
+        glava->naslednji->prejsnji = glava;
+    
+        temp->naslednji = glava;
+    }
+    if (glava != NULL)
+    {
+        glava->prejsnji = temp;
+        glava = glava->prejsnji;
+    }
+}
+
 /********************************************************************************************/
 /*                                       OPERATORS                                          */    
 /********************************************************************************************/
