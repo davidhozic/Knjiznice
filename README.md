@@ -31,7 +31,7 @@ LINKED LIST FUNCTIONS |
      *  FUNCTION:    length()
      *  PARAMETERS:  void
      *  DESCRIPTION: Returns the number of elements in the list     
-     *  RETURN:      void                                   
+     *  RETURN:      uint32_t number of elements                                   
      
 -------------------------------------------------------------------------------------------
 
