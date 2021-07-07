@@ -21,7 +21,7 @@ The LITL library - Linked-list, Input, Timer, Library
     - void reset();     -> Resets the timer and disables it
     - void set_hook(function to call, calling period, pointer of parameter to send to function); [ ONLY AVAILABLE IN INTERRUPT MODE] -> attaches function to the timer which gets called every specified period, then the timer auto reloads. To reset back into normal mode, call this function again but with NULL, 0, NULL as parameters.
 - LINKED LIST:
-  - A linked list without constructor (can be used even before call of function main), supports operator overloads, and many other high language features.
+  - A high language like linked list
   - It uses a TEMPLATE PARAMETER meaning you can tell it what the variable type will be.
 
 -------------------------------------------------------------------------------------------
