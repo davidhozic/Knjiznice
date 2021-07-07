@@ -105,7 +105,12 @@ LINKED LIST FUNCTIONS |
      *  PARAMETERS:  void
      *  DESCRIPTION: returns a copy of the last element in the list
      *  RETURN:    custom_type
-    
+-------------------------------------------------------------------------------------------
+
+     *  FUNCTION:    clone
+     *  PARAMETERS:  List of same type
+     *  DESCRIPTION: copies data from a different list to current list
+     *  RETURN:      void
                                              
 -------------------------------------------------------------------------------------------
 LINKED LIST OPERATORS |
@@ -122,5 +127,12 @@ LINKED LIST OPERATORS |
      *  PARAMETERS:  custom data
      *  DESCRIPTION: Adds data to the back of the list                   
      *  RETURN:      void
+     
+-------------------------------------------------------------------------------------------
+   *  OPERATOR:    +
+   *  PARAMETERS:  custom data
+   *  DESCRIPTION: Adds data to the back/front of the list (data on left, object on right means it will be added to the front)                   
+   *  RETURN:      reference to the original object (must be reference otherwise deconstructor will delete the entire content)
+
      
 
