@@ -25,8 +25,8 @@ The LITL library - Linked-list, Input, Timer, Library
   - It uses a TEMPLATE PARAMETER meaning you can tell it what the variable type will be.
 
 -------------------------------------------------------------------------------------------
-LINKED LIST FUNCTIONS |
-----------------------
+LINKED LIST FUNCTIONS 
+-------------------------------------------------------------------------------------------
 
      *  FUNCTION:    length()
      *  PARAMETERS:  void
@@ -111,10 +111,16 @@ LINKED LIST FUNCTIONS |
      *  PARAMETERS:  List of same type
      *  DESCRIPTION: copies data from a different list to current list
      *  RETURN:      void
-                                             
 -------------------------------------------------------------------------------------------
-LINKED LIST OPERATORS |
------------
+
+     *  FUNCTION:    pop 
+     *  PARAMETERS:  index of element to pop
+     *  DESCRIPTION: Removes the element at index and returns it
+     *  RETURN:      custom data type element at index
+
+-------------------------------------------------------------------------------------------
+LINKED LIST OPERATORS
+-------------------------------------------------------------------------------------------
     
      *  OPERATOR:    [] 
      *  PARAMETERS:  unsigned long index
@@ -129,9 +135,10 @@ LINKED LIST OPERATORS |
      *  RETURN:      void
      
 -------------------------------------------------------------------------------------------
+     
      *  OPERATOR:    +
      *  PARAMETERS:  custom data
      *  DESCRIPTION: Adds data to the back/front of the list (data on left, object on right means it will be added to the front)                   
      *  RETURN:      reference to the original object
-
+     
 
