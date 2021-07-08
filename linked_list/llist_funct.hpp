@@ -310,6 +310,22 @@ void LIST_t<tip>::clone(LIST_t<tip> &src)
         add_end(src[i]);
 }   
 
+/**********************************************************************
+ *  FUNCTION:    pop 
+ *  PARAMETERS:  index of element to pop
+ *  DESCRIPTION: Removes the element at index and returns it
+ *  RETURN:      custom data type element at index
+ **********************************************************************/
+template <typename tip>
+tip LIST_t<tip>::pop(uint32_t index)
+{
+    head_to_index(index);
+    tip temp = glava->podatek;
+    remove_by_index(index);
+    return temp;   
+}
+
+
 /********************************************************************************************/
 /*                                       OPERATORS                                          */    
 /********************************************************************************************/

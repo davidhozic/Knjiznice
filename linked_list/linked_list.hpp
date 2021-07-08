@@ -57,7 +57,7 @@ public:
     void splice(uint32_t index, uint32_t num_to_remove);
     tip peek();
     void clone(LIST_t<tip> &src);
-
+    tip pop(uint32_t index);
     /*************************************************/
 #if (USE_OPERATORS == 1)
 
