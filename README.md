@@ -21,7 +21,7 @@ The LITL library - Linked-list, Input, Timer, Library
     - void reset();     -> Resets the timer and disables it
     - void set_hook(function to call, calling period, pointer of parameter to send to function); [ ONLY AVAILABLE IN INTERRUPT MODE] -> attaches function to the timer which gets called every specified period, then the timer auto reloads. To reset back into normal mode, call this function again but with NULL, 0, NULL as parameters.
 - LINKED LIST:
-  - A linked list without constructor (can be used even before call of function main), supports operator overloads, and many other high language features.
+  - A high language like linked list
   - It uses a TEMPLATE PARAMETER meaning you can tell it what the variable type will be.
 
 -------------------------------------------------------------------------------------------
@@ -105,7 +105,12 @@ LINKED LIST FUNCTIONS |
      *  PARAMETERS:  void
      *  DESCRIPTION: returns a copy of the last element in the list
      *  RETURN:    custom_type
-    
+-------------------------------------------------------------------------------------------
+
+     *  FUNCTION:    clone
+     *  PARAMETERS:  List of same type
+     *  DESCRIPTION: copies data from a different list to current list
+     *  RETURN:      void
                                              
 -------------------------------------------------------------------------------------------
 LINKED LIST OPERATORS |
@@ -123,4 +128,10 @@ LINKED LIST OPERATORS |
      *  DESCRIPTION: Adds data to the back of the list                   
      *  RETURN:      void
      
+-------------------------------------------------------------------------------------------
+     *  OPERATOR:    +
+     *  PARAMETERS:  custom data
+     *  DESCRIPTION: Adds data to the back/front of the list (data on left, object on right means it will be added to the front)                   
+     *  RETURN:      reference to the original object
+
 
