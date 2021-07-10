@@ -23,7 +23,6 @@ private:
 
 	#if (TIMER_CFG_USE_INTERRUPT)
 		bool initialized = false;
-        void increment();
         void init();
     #endif
 
@@ -31,8 +30,10 @@ public:
     uint32_t value();
     void reset();
 	#if (TIMER_CFG_USE_INTERRUPT == 1)
+        void increment();
 		void set_hook(void (*function_ptr)(void*), uint32_t call_period, void* function_param_ptr);
 		static LIST_t <TIMER_t *> timer_list;
+        ~TIMER_t();
 	#endif
 };
 

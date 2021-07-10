@@ -1,3 +1,4 @@
 *.exe
 *.o
 Build/*
+castimer/.vscode/tasks.json
