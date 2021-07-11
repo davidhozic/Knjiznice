@@ -23,6 +23,7 @@ The LITL library - Linked-list, Input, Timer, Library
 - LINKED LIST:
   - A high language like linked list
   - It uses a TEMPLATE PARAMETER meaning you can tell it what the variable type will be.
+  - Does not require the STL library making it compatible with platforms, even those that don't support DLLs.
 
 -------------------------------------------------------------------------------------------
 LINKED LIST FUNCTIONS 
