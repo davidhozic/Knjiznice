@@ -44,6 +44,21 @@ public:
     void add_end(tip vrednost);
     tip pop_end();
 
+    LIST_t<tip> (LIST_t<tip> &old_obj)
+    {
+        clone(old_obj);
+    } 
+
+    LIST_t<tip>()
+    {
+
+    }
+
+    ~LIST_t<tip>()
+    {
+        splice(0, length());
+    }
+
 #if (INCLUDE_SORT == 1)
     void sort(int (*comparator_fnct)(tip , tip));
 #endif

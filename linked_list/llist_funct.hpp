@@ -200,7 +200,6 @@ void LIST_t<tip>::print_console()
 }
 #endif
 
-
 /**********************************************************************
  *  FUNCTION:    remove_by_index ()
  *  PARAMETERS:  uint32_t index of element to remove
@@ -229,6 +228,8 @@ inline void LIST_t<tip>::remove_by_index(uint32_t index)
         new_head = glava->prejsnji;
         glava_index = glava_index > 0 ? glava_index - 1  : 0;
     }
+
+    glava->podatek.~tip();
 
     free(glava);
 

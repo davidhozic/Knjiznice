@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #include "linked_list.hpp"
-#include <vector>
+
 
 
 
@@ -29,17 +29,11 @@ int compare (PERSON_t a , PERSON_t b)
 }
 
 
-/* USE CLONE to copy the list, it does not do it automaticaly */
-void test(LIST_t <PERSON_t> old_object)
-{
-    LIST_t <PERSON_t> new_object;
-    new_object.clone(old_object);
-}
+
+
 
 
 LIST_t <PERSON_t> people;
-
-
 
 int main()
 {
@@ -58,6 +52,7 @@ int main()
     for (uint32_t i = 0, l = people.length(); i < l; i++)
         cout << people[i].name << endl;
 
+
     people.sort(compare);
     cout  << endl
           << "After sort:"
@@ -66,7 +61,6 @@ int main()
     for (uint32_t i = 0, l = people.length(); i < l; i++)
         cout << people[i].name << endl; 
 
-   
 
     return 0;
 }
