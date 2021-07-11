@@ -43,36 +43,23 @@ public:
 	void add_front(tip vrednost);
     void add_end(tip vrednost);
     tip pop_end();
-
-    LIST_t<tip> (LIST_t<tip> &old_obj)
-    {
-        clone(old_obj);
-    } 
-
-    LIST_t<tip>()
-    {
-
-    }
-
-    ~LIST_t<tip>()
-    {
-        splice(0, length());
-    }
-
 #if (INCLUDE_SORT == 1)
     void sort(int (*comparator_fnct)(tip , tip));
 #endif
-
-
 #if (INCLUDE_IOSTREAM == 1)
     void print_console();
 #endif
-
     inline void remove_by_index(uint32_t index);
     void splice(uint32_t index, uint32_t num_to_remove);
     tip peek();
     void clone(LIST_t<tip> &src);
     tip pop(uint32_t index);
+
+/* Constructors / Deconstructors */
+    LIST_t  ();
+    LIST_t  (LIST_t<tip> &old_obj);
+    ~LIST_t ();
+
     /*************************************************/
 #if (USE_OPERATORS == 1)
 

@@ -326,6 +326,23 @@ tip LIST_t<tip>::pop(uint32_t index)
     return temp;   
 }
 
+/********************************************************************************************/
+/*                                       CONSTRUCTORS                                       */    
+/********************************************************************************************/
+template <typename tip>
+LIST_t<tip>::LIST_t(){}
+
+template <typename tip>
+LIST_t<tip>::LIST_t(LIST_t<tip> &old_obj)
+{
+    clone(old_obj);
+}
+
+template <typename tip>
+LIST_t<tip>::~LIST_t()
+{
+    splice(0,length());
+}
 
 /********************************************************************************************/
 /*                                       OPERATORS                                          */    
