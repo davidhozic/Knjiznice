@@ -23,7 +23,6 @@ The LITL library - Linked-list, Input, Timer, Library
 - LINKED LIST:
   - A high language like linked list
   - It uses a TEMPLATE PARAMETER meaning you can tell it what the variable type will be.
-    - **NOTE** When you send the list to the function you are not sending the list to the function but the control object, if you wish to create a copy of the list, use the clone command.
 
 -------------------------------------------------------------------------------------------
 LINKED LIST FUNCTIONS 
