@@ -333,12 +333,24 @@ template <typename tip>
 LIST_t<tip>::LIST_t(){}
 
 template <typename tip>
-LIST_t<tip>::LIST_t(LIST_t<tip> &old_obj)
+LIST_t<tip>::LIST_t(const LIST_t<tip> &old_obj)
 {
-    clone(old_obj);
+    vpdt *old_head = old_obj.glava;
+    while (old_head != NULL && old_head->prejsnji != NULL)
+        old_head = old_head->prejsnji;
+
+    glava = NULL;
+    count = 0;
+    glava_index = 0;
+
+    while (old_head != NULL)
+    {
+        add_end(old_head->podatek);
+        old_head = old_head->naslednji;
+    }
 }
 
-template <typename tip>
+ template <typename tip>
 LIST_t<tip>::~LIST_t()
 {
     splice(0,length());
@@ -384,28 +396,22 @@ void LIST_t<tip>::operator+=(tip pod)
  *  RETURN:      reference to the original object (must be reference otherwise deconstructor will delete the entire content)
  **********************************************************************/
 template <typename tip>
-LIST_t<tip> &operator + (LIST_t<tip> objectin, tip src)
+LIST_t<tip> operator + (LIST_t<tip> objectin, tip src)
 {
-    /* So we don't have to use const in the copy constructor (would prevent head changes) */
-    static LIST_t<tip> ret = objectin; 
-    ret.add_end(src);
-    return ret;
+    objectin.add_end(src);
+    return objectin;
 }
 
 template <typename tip>
-LIST_t<tip> &operator+ (tip data, LIST_t<tip> objectin)
+LIST_t<tip> operator+ (tip data, LIST_t<tip> objectin)
 {
-    /* So we don't have to use const in the copy constructor (would prevent head changes) */
-    static LIST_t<tip> ret = objectin;
-    ret.add_front(data);
-    return ret;
+    objectin.add_front(data);
+    return objectin;
 }
-
 template <typename tip>
-void LIST_t<tip>::operator= (LIST_t<tip> rval)
+void LIST_t<tip>::operator= (LIST_t<tip> object)
 {
-    clone(rval);
+    clone(object);
 }
-
 
 #endif

@@ -57,7 +57,7 @@ public:
 
 /* Constructors / Deconstructors */
     LIST_t  ();
-    LIST_t  (LIST_t<tip> &old_obj);
+    LIST_t  (const LIST_t<tip> &old_obj);
     ~LIST_t ();
 
     /*************************************************/
@@ -65,7 +65,7 @@ public:
 
     tip &operator[](unsigned long index);
     void operator +=(tip pod);
-    void operator = (LIST_t<tip> rval);
+    void operator= (LIST_t<tip> object);
 #endif
 
 };

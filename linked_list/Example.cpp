@@ -4,7 +4,7 @@
 
 #include "linked_list.hpp"
 
-
+#include <time.h>
 
 
 using namespace std;
@@ -36,13 +36,19 @@ int compare (PERSON_t a , PERSON_t b)
 LIST_t <PERSON_t> people;
 int main()
 {
-    people = PERSON_t("Lucifer", 50)  +   people;
-    people = PERSON_t("David", 5000)  +   people;
-    people = PERSON_t("Britney", 100) +   people;
-    people = PERSON_t("Amanda", 1232) +   people;
-    people = PERSON_t("Teja", 10000)  +   people;
-    people = people + PERSON_t("Johny", 100000);
-    
+
+
+        /* Not recommended as its slower */
+        people = PERSON_t("Lucifer", 50)  +   people;
+        people = PERSON_t("David", 5000)  +   people;
+        people = PERSON_t("Britney", 100) +   people;
+        people = people + PERSON_t("Johny", 100000);
+
+        /* Recommended way*/
+        people.add_front( PERSON_t("Amanda", 1232));
+        people.add_front( PERSON_t("Teja", 55555));
+        people.add_end(PERSON_t("Johny", 100000));
+
 
     cout << "Before sort: "
          << endl;
