@@ -65,6 +65,7 @@ public:
 
     tip &operator[](unsigned long index);
     void operator +=(tip pod);
+    void operator = (LIST_t<tip> rval);
 #endif
 
 };

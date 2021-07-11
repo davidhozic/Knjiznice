@@ -384,16 +384,27 @@ void LIST_t<tip>::operator+=(tip pod)
  *  RETURN:      reference to the original object (must be reference otherwise deconstructor will delete the entire content)
  **********************************************************************/
 template <typename tip>
-LIST_t<tip> &operator + (LIST_t<tip> &object, tip src)
+LIST_t<tip> &operator + (LIST_t<tip> objectin, tip src)
 {
-    object.add_end(src);
-    return object;
+    /* So we don't have to use const in the copy constructor (would prevent head changes) */
+    static LIST_t<tip> ret = objectin; 
+    ret.add_end(src);
+    return ret;
 }
+
 template <typename tip>
-LIST_t<tip>  &operator+ (tip data, LIST_t<tip> &object)
+LIST_t<tip> &operator+ (tip data, LIST_t<tip> objectin)
 {
-    object.add_front(data);
-    return object;
+    /* So we don't have to use const in the copy constructor (would prevent head changes) */
+    static LIST_t<tip> ret = objectin;
+    ret.add_front(data);
+    return ret;
+}
+
+template <typename tip>
+void LIST_t<tip>::operator= (LIST_t<tip> rval)
+{
+    clone(rval);
 }
 
 
