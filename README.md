@@ -23,6 +23,8 @@ The LITL library - Linked-list, Input, Timer, Library
 - LINKED LIST:
   - A high language like linked list
   - It uses a TEMPLATE PARAMETER meaning you can tell it what the variable type will be.
+    - **NOTE** In case you decide to use multi dimensional lists, when deleting those lists make sure you delete the sub lists first, i cannot use the deconstructor to do that automatically because that deconstructor would also delete the list if you sent the control object into a function and then exit a function. 
+    - **NOTE 2** When you send the list to the function you are not sending the list to the function but the control object, if you wish to create a copy of the list, use the clone command, if you have a multi d list make sure you manually delete the sublists and then the main list before exiting the function otherwise you will have a memory leak.
 
 -------------------------------------------------------------------------------------------
 LINKED LIST FUNCTIONS 
