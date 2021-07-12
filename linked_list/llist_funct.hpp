@@ -125,6 +125,67 @@ void LIST_t<tip>::add_end(tip value)
 
 
 /**********************************************************************
+ *  FUNCTION:    add()
+ *  PARAMETERS:  uint32_t index, custom type data
+ *  DESCRIPTION: adds element to the specified index
+ *  RETURN:      void         
+ **********************************************************************/
+template <typename tip>
+void LIST_t<tip>::add(uint32_t index, tip data)
+{
+    vpdt *nov;
+	#if USE_FREERTOS == 1
+	    nov = (vpdt *)pvPortMalloc(sizeof(vpdt));
+	#else
+	    nov = (vpdt *)malloc(sizeof(vpdt));
+	#endif
+    
+    if (index == 0)
+    {
+        pojdi_zacetek();
+
+        if (glava != NULL)
+        {
+            glava->prejsnji = nov;
+        }
+        nov->prejsnji = NULL;
+        nov->naslednji = glava;
+        glava_index = 0;
+    }
+
+    else if (index == count)
+    {
+        pojdi_konec();
+        if (glava != NULL)
+        {
+            glava->naslednji = nov;
+        }
+        nov->prejsnji = glava;
+        nov->naslednji = NULL;
+        glava_index = count;
+    }
+
+    else
+    {
+        head_to_index(index);
+        nov->prejsnji = glava->prejsnji;
+        nov->naslednji = glava;
+        if (glava != NULL)
+        {
+            if (glava->prejsnji != NULL)
+                glava->prejsnji->naslednji = nov;
+
+            glava->prejsnji = nov;
+        }
+    }
+
+    count++;
+    nov->podatek = data;   
+    glava = nov;
+}
+
+
+/**********************************************************************
  *  FUNCTION:    pop_end()
  *  PARAMETERS:  void
  *  DESCRIPTION: removes the last element and returns it

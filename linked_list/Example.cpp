@@ -42,13 +42,14 @@ int main()
         people = PERSON_t("Lucifer", 50)  +   people;
         people = PERSON_t("David", 5000)  +   people;
         people = PERSON_t("Britney", 100) +   people;
-        people = people + PERSON_t("Johny", 100000);
+        people = people + PERSON_t("Johny", 100000); 
 
         /* Recommended way*/
         people.add_front( PERSON_t("Amanda", 1232));
         people.add_front( PERSON_t("Teja", 55555));
         people.add_end(PERSON_t("Johny", 100000));
-
+        people.add(1, PERSON_t("Anja",0));
+ 
 
     cout << "Before sort: "
          << endl;

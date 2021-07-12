@@ -25,7 +25,6 @@ private:
         vpdt *naslednji;
         vpdt *prejsnji;
         tip podatek;
-        
     };
 
     vpdt *glava = NULL;
@@ -42,6 +41,9 @@ public:
     uint32_t length();
 	void add_front(tip vrednost);
     void add_end(tip vrednost);
+
+    void add(uint32_t index, tip data);
+    
     tip pop_end();
 #if (INCLUDE_SORT == 1)
     void sort(int (*comparator_fnct)(tip , tip));
