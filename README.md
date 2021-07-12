@@ -50,17 +50,6 @@ LINKED LIST FUNCTIONS
      *  PARAMETERS:  custom_type value
      *  DESCRIPTION: adds element to the end of the list        
      *  RETURN:      void         
-     
-
--------------------------------------------------------------------------------------------
-
-
-    
-     *  FUNCTION:    pop_end()
-     *  PARAMETERS:  void
-     *  DESCRIPTION: removes the last element and returns it
-     *  RETURN:      Custom type element at the end of the list                     
-     
 -------------------------------------------------------------------------------------------
 
 
@@ -118,6 +107,13 @@ LINKED LIST FUNCTIONS
      *  PARAMETERS:  index of element to pop
      *  DESCRIPTION: Removes the element at index and returns it
      *  RETURN:      custom data type element at index
+     
+-------------------------------------------------------------------------------------------
+    
+     *  FUNCTION:    pop_end()
+     *  PARAMETERS:  void
+     *  DESCRIPTION: removes the last element and returns it
+     *  RETURN:      Custom type element at the end of the list                  
 
 -------------------------------------------------------------------------------------------
 LINKED LIST OPERATORS
