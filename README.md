@@ -6,8 +6,10 @@ The LITL library - Linked-list, Input, Timer, Library
 - INPUT:
   - An input class for avr inputs
   - Supports: Rising Edge, Falling Edge, Filtering (requres castimer)
-  - Initialization :  INPUT_t example("pin","port", bool invert state);  or  INPUT_t example = INPUT_t(pin,'port letter', bool invert state);
-                                                    If invert state is set to 1, the input's value will be inverted from the PIN register value
+  - Initialization :  INPUT_t example("pin","port", bool invert state); 
+                      INPUT_t example = INPUT_t(pin,'port letter', bool invert state);
+                      If invert state is set to 1, the input's value will be inverted from the PIN register value
+                      
   - Functions: 
     - bool value(); -> Returns value of the input
     - bool risen_edge();  -> Returns 1 if input went from 0 to 1 from the last function call, the risen edge bit is cleared if this function is called or if input is 0
@@ -16,6 +18,9 @@ The LITL library - Linked-list, Input, Timer, Library
 - TIMER:
   - An universal timer class, if on interrupt mode, then it will only work on avr.
   - Supports interrupt mode (every timer is incremented in an ISR) or system time mode (time difference)
+  - Initialization : TIMER_t your_timer;
+                     TIMER_t your_timer = TIMER_t();
+                     
   - Functions: 
     - uint32_t value(); -> Starts the timer and returns the value
     - void reset();     -> Resets the timer and disables it
@@ -24,6 +29,8 @@ The LITL library - Linked-list, Input, Timer, Library
   - A high language like linked list
   - It uses a TEMPLATE PARAMETER meaning you can tell it what the variable type will be.
   - Does not require the STL library making it compatible with platforms, even those that don't support DLLs.
+  - Initialization : LIST_t <data type> list_name;
+                     LIST_t <data type> list_name = LIST_t <data type>();
 
 -------------------------------------------------------------------------------------------
 LINKED LIST FUNCTIONS 
