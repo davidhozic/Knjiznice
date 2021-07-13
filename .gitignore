@@ -2,3 +2,6 @@
 *.o
 Build/*
 castimer/.vscode/tasks.json
+linked_list/.vscode/launch.json
+linked_list/.vscode/settings.json
+linked_list/.vscode/tasks.json
