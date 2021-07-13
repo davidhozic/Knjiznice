@@ -185,35 +185,6 @@ void LIST_t<tip>::add(uint32_t index, tip data)
 }
 
 
-/**********************************************************************
- *  FUNCTION:    pop_end()
- *  PARAMETERS:  void
- *  DESCRIPTION: removes the last element and returns it
- *  RETURN:      Custom type element at the end of the list                     
- **********************************************************************/
-template <typename tip>
-tip LIST_t<tip>::pop_end()
-{
-    tip return_data;
-    pojdi_konec();
-    return_data = glava->podatek;
-    vpdt *prev = glava->prejsnji;
-    if (prev != NULL)
-        prev->naslednji = NULL;
-
-	#if USE_FREERTOS == 1
-		pvPortFree(glava);
-	#else
-	    free(glava);
-	#endif
-
-    glava = prev;
-    count--;
-    glava_index--;
-    
-    return return_data;
-}
-
 
 /**********************************************************************
  *  FUNCTION:    sort()
@@ -385,6 +356,35 @@ tip LIST_t<tip>::pop(uint32_t index)
     tip temp = glava->podatek;
     remove_by_index(index);
     return temp;   
+}
+
+
+/**********************************************************************
+ *  FUNCTION:    pop_end()
+ *  PARAMETERS:  void
+ *  DESCRIPTION: removes the last element and returns it
+ *  RETURN:      Custom type element at the end of the list                     
+ **********************************************************************/
+template <typename tip>
+tip LIST_t<tip>::pop_end()
+{
+    pojdi_konec();
+    tip return_data = glava->podatek;
+    vpdt *prev = glava->prejsnji;
+    if (prev != NULL)
+        prev->naslednji = NULL;
+
+	#if USE_FREERTOS == 1
+		pvPortFree(glava);
+	#else
+	    free(glava);
+	#endif
+
+    glava = prev;
+    count--;
+    glava_index--;
+    
+    return return_data;
 }
 
 /********************************************************************************************/
