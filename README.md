@@ -52,7 +52,12 @@ LINKED LIST FUNCTIONS
      *  RETURN:      void         
 -------------------------------------------------------------------------------------------
 
+     *  FUNCTION:    add()
+     *  PARAMETERS:  uint32_t index, custom type data
+     *  DESCRIPTION: adds element to the specified index
+     *  RETURN:      void         
 
+-------------------------------------------------------------------------------------------
     
      *  FUNCTION:    sort()
      *  PARAMETERS:  int function_comparator_function (must return < 0 if element 1 is before element 2)
@@ -97,13 +102,13 @@ LINKED LIST FUNCTIONS
      *  RETURN:    custom_type
 -------------------------------------------------------------------------------------------
 
-     *  FUNCTION:    clone
+     *  FUNCTION:    clone()
      *  PARAMETERS:  List of same type
      *  DESCRIPTION: copies data from a different list to current list
      *  RETURN:      void
 -------------------------------------------------------------------------------------------
 
-     *  FUNCTION:    pop 
+     *  FUNCTION:    pop ()
      *  PARAMETERS:  index of element to pop
      *  DESCRIPTION: Removes the element at index and returns it
      *  RETURN:      custom data type element at index
