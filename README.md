@@ -1,6 +1,6 @@
 # LITL
 The LITL library - Linked-list, Input, Timer, Library
-
+The library is meant for avr microcontrollers however the linked list also works on desktop
 
 
 - INPUT:
